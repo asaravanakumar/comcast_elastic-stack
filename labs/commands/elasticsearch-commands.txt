@@ -1,5 +1,5 @@
 #Starting Elasticsearch Windows
-cd D:\Programs\Elastic\elasticsearch-8.6.12
+cd D:\Programs\Elastic\elasticsearch-8.5.2
 bin\elasticsearch.bat
 
 #Elaticsearch
