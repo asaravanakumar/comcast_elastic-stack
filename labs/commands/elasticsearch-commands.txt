@@ -1,0 +1,17 @@
+#Starting Elasticsearch Windows
+cd D:\Programs\Elastic\elasticsearch-8.6.12
+bin\elasticsearch.bat
+
+#Elaticsearch
+GET		http://localhost:9200
+GET		http://localhost:9200/_cat
+GET		http://localhost:9200/_cluster/health
+
+PUT		http://localhost:9200/employee				=> Create index
+GET 		http://localhost:9200/employee				=> Get index detail
+DELETE 		http://localhost:9200/employee				=> Delete index
+
+POST		http://localhost:9200/employee/_doc/1			=> Index document
+GET 		http://localhost:9200/employee/_doc/1			=> Get document detail
+DELETE		http://localhost:9200/employee/_doc/1			=> Delete document
+POST		http://localhost:9200/employee/_doc/1/_update		=> Update document
