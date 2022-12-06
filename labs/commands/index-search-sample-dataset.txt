@@ -1,11 +1,11 @@
 # Download mapping for index
-sudo wget https://github.com/asaravanakumar/comcast_elastic-stack/labs/dataset/shakes-mapping.json
+sudo wget https://raw.githubusercontent.com/asaravanakumar/comcast_elastic-stack/main/labs/dataset/shakespeare/shakes-mapping.json
 
 
 curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/shakespeare --data-binary @shakes-mapping.json
 
 # Download shakespeare data
-sudo wget https://github.com/asaravanakumar/comcast_elastic-stack/labs/dataset/shakespeare_8.0.json
+sudo wget https://raw.githubusercontent.com/asaravanakumar/comcast_elastic-stack/main/labs/dataset/shakespeare/shakespeare_8.0.json
 
 # Index data to Elasticsearch
 curl -H "Content-Type: application/json" -XPUT '127.0.0.1:9200/shakespeare/_bulk' --data-binary @shakespeare_8.0.json
