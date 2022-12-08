@@ -5,7 +5,7 @@
 curl -XGET '127.0.0.1:9200/movies/_mapping?pretty'
 
 # Search w/o analyser
-curl -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
 {
 	"query" : {
 		"match_phrase" : {
@@ -14,7 +14,7 @@ curl -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
 	}
 }'
 
-curl -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
 {
 	"query" : {
 		"match_phrase" : {
