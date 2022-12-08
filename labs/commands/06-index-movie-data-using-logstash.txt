@@ -33,5 +33,5 @@ output {
 
 
 #Run Logstash
-sudo /bin/logstash -f /etc/logstash/conf.d/movies-csv-read.conf
+sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/movies-csv-read.conf
 
