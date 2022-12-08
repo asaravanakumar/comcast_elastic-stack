@@ -1,0 +1,71 @@
+
+# Relational Data Modeling example
+
+
+# Delete the movie index
+curl -XDELETE '127.0.0.1:9200/series?pretty'
+
+
+# Create series index
+
+curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/series?pretty -d '
+{
+	"mappings": {
+    		"properties": {
+			"film_to_franchise": {
+				"type": "join",
+				"relations": { "franchise": "film" }
+			}
+    		}
+	}
+}'
+
+# View Mapping
+curl -XGET 127.0.0.1:9200/movies/_mapping?pretty
+
+# Download Movie Series data
+sudo wget https://raw.githubusercontent.com/asaravanakumar/comcast_elastic-stack/main/labs/dataset/movie-dataset/series.json
+
+# Bulk index series data
+curl -XPUT -H "Content-Type: application/json" '127.0.0.1:9200/series/_bulk?pretty' --data-binary @series.json
+
+# View the indexed series data
+curl -XGET '127.0.0.1:9200/series?pretty'
+
+# Search with parent
+curl -XGET -H "Content-Type: application/json" '127.0.0.1:9200/series/_search?pretty' -d '
+{
+	"query" : {
+		"has_parent" : {
+			"parent_type" : "franchise",
+			"query" : {
+				"match" : { 
+					"title" : "Star Wars"
+				}	
+			}
+			
+		}
+
+	}
+}'
+
+
+# Search with child
+curl -XGET -H "Content-Type: application/json" '127.0.0.1:9200/series/_search?pretty' -d '
+{
+	"query" : {
+		"has_child" : {
+			"type" : "film",
+			"query" : {
+				"match" : { 
+					"title" : "The Force Awakens"
+				}	
+			}
+			
+		}
+
+	}
+}'
+
+
+ 

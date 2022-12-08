@@ -14,4 +14,4 @@ DELETE 		http://localhost:9200/employee				=> Delete index
 POST		http://localhost:9200/employee/_doc/1			=> Index document
 GET 		http://localhost:9200/employee/_doc/1			=> Get document detail
 DELETE		http://localhost:9200/employee/_doc/1			=> Delete document
-POST		http://localhost:9200/employee/_doc/1/_update		=> Update document
+POST		http://localhost:9200/employee/_update/1		=> Update document

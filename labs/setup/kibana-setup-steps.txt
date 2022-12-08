@@ -1,0 +1,17 @@
+#Kibana Setup in Ubuntu
+
+sudo apt install kibana
+
+#Configure Kibana
+
+sudo vi /etc/kibana/kibana.yml
+	change server.host to 0.0.0.0
+
+#Enable Kibana to run as service on startup
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable kibana.service
+sudo /bin/systemctl start kibana.service
+sudo /bin/systemctl status kibana.service
+
+#Verify Kibana setup
+http://localhost:5601

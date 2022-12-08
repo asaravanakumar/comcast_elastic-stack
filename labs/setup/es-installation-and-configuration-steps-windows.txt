@@ -1,0 +1,39 @@
+#Java Installation
+1) Download Java from below URL 
+   https://www.oracle.com/in/java/technologies/downloads/#java11-windows
+
+2) Run the installer and complete the installation
+
+#Environment Variable configuration
+JAVA_HOME=<Java installation directory>
+Path=%Path%;%JAVA_HOME%\bin
+
+#Verify Java Installation
+Open Command Prompt
+java -version
+javac -version
+(Above commands should show installed java version)
+
+#STS Installation
+1) Download Java from below URL 
+   (STS 4) ==> https://spring.io/tools
+2) Copy STS zip file to local directory from Downloads directory
+   e.g: C:\Programs\STS
+3) Unzip STS file in the same directory
+4) STS 4 ==> Goto sts-<4.x.x>.RELEASE
+5) Start STS and create shortcut to Desktop
+   (STS 4) ==> SpringToolSuite4.exe
+
+
+#Elasticsearch Installation
+1) Download Elasticsearch from web
+   (https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.5.2-windows-x86_64.zip)
+2) Copy Elasticsearch zip file to local directory from Downloads directory
+   e.g: C:\Programs\Elasticsearch
+3) Unzip Elasticsearch zip file in the same directory
+4) Open Command Prompt
+4) Goto C:\Programs\Elastic\elasticsearch-<8.x.x>\bin   
+5) Execute following command -> .\elasticsearch.bat
+   (Elasticsearch should be started and listening on port 9200) 
+6) Open browser and enter following URL -> http://localhost:9200
+   (Elasticsearch cluster and node details be shown)

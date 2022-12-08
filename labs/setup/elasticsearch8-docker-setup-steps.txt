@@ -1,0 +1,27 @@
+
+
+#Pull the Elasticsearch image
+docker pull docker.elastic.co/elasticsearch/elasticsearch:8.5.2
+
+#Create a new docker network for Elasticsearch and Kibana
+docker network create elastic
+
+#Start Elasticsearch in Docker
+docker run --name es01 --net elastic -p 9200:9200 -it docker.elastic.co/elasticsearch/elasticsearch:8.5.2
+
+
+#A password is generated for the elastic user and output to the terminal, plus an enrollment token for enrolling Kibana
+
+#Copy the generated password and enrollment token and save them in a secure location. These values are shown only when you start Elasticsearch for the first time.
+
+#Reset Elasticsearch password [Optional]
+docker exec -it es01 /usr/share/elasticsearch/bin/elasticsearch-reset-password
+
+#Copy the http_ca.crt security certificate from your Docker container to your local machine
+docker cp es01:/usr/share/elasticsearch/config/certs/http_ca.crt .
+
+
+#Open a new terminal and verify that you can connect to your Elasticsearch cluster by making an authenticated call, using the http_ca.crt file that you copied from your Docker container. 
+curl --cacert http_ca.crt -u elastic https://localhost:9200
+
+#Enter the password for the elastic user when prompted.

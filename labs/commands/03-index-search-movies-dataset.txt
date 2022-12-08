@@ -1,0 +1,140 @@
+# Create Movies index
+curl -XPUT 127.0.0.1:9200/movies?pretty
+
+# Create Movies index with mapping?pretty
+curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies/_mapping -d '
+{
+	"mappings": {
+    	"properties": {
+        	"year": {
+                    "type": "date"
+            }
+    	}
+	}
+}'
+
+
+# View Mapping
+curl -XGET 127.0.0.1:9200/movies/_mapping?pretty
+
+# Insert Movie document
+curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies/_doc/1 -d '
+{
+   "genre": ["IMAX", "Sci-Fi"],
+   "title": "Jurassic Park" ,
+   "year": 1993
+}'
+
+
+# View Movie document
+curl -XGET 127.0.0.1:9200/movies/_doc/1
+
+
+# Download Movies data
+sudo wget https://raw.githubusercontent.com/asaravanakumar/comcast_elastic-stack/main/labs/dataset/movie-dataset/movies.json
+
+# Index data to Elastic-search
+curl -XPUT -H "Content-Type: application/json" '127.0.0.1:9200/movies/_bulk?pretty' --data-binary @movies.json
+
+# Try searching a phrase
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"match_phrase" : {
+			"title" : "star"
+		}
+	}
+}' 
+
+
+# Update a movie title
+curl -H "Content-Type: application/json" -XPOST '127.0.0.1:9200/movies/_update/135569?pretty' -d '
+{
+	"doc": {
+		"title": "Star Trek Beyond updated"
+	}
+}'
+
+# View updated movie document [notice version field got changed]
+curl -XGET '127.0.0.1:9200/movies/_doc/135569?pretty'
+
+# Update back movie title
+curl -H "Content-Type: application/json" -XPOST '127.0.0.1:9200/movies/_update/135569?pretty' -d '
+{
+	"doc": {
+		"title": "Star Trek Beyond"
+	}
+}'
+
+# Delete a movie document
+curl -XDELETE '127.0.0.1:9200/movies/_doc/135569?pretty'
+
+# Analyser example
+
+# View current mapping
+curl -XGET '127.0.0.1:9200/movies/_mapping?pretty'
+
+# Search w/o analyser
+curl -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"match_phrase" : {
+			"title" : "Star Trek"
+		}
+	}
+}'
+
+curl -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"match_phrase" : {
+			"genre" : "sci"
+		}
+	}
+}'
+
+# Delete the movie index
+curl -XDELETE '127.0.0.1:9200/movies?pretty'
+
+
+# Create movie index with analyser mapping
+
+curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies?pretty -d '
+{
+	"mappings": {
+    		"properties": {
+        		"id": {
+                    		"type": "integer"
+            		},
+        		"year": {
+                    		"type": "date"
+            		},
+        		"genre": {
+                    		"type": "keyword"
+            		},
+        		"title": {
+                    		"type": "text", "analyzer": "english"
+            		}
+    		}
+	}
+}'
+
+# View Mapping
+curl -XGET 127.0.0.1:9200/movies/_mapping?pretty
+
+# Bulk index movies data
+curl -XPUT -H "Content-Type: application/json" '127.0.0.1:9200/movies/_bulk?pretty' --data-binary @movies.json
+
+# Search with analyser
+curl -XGET -H "Content-Type: application/json" '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"match_phrase" : {
+			"title" : "Star Trek"
+		}
+	}
+}'
+
+
+
+ 
