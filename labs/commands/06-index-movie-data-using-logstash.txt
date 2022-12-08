@@ -1,6 +1,6 @@
 
 # Download movies dataset
-sudo wget 
+sudo wget https://raw.githubusercontent.com/asaravanakumar/comcast_elastic-stack/main/labs/dataset/movie-dataset/movies.csv
 
 #Configure logstash pipeline
 
