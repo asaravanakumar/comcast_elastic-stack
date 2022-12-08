@@ -1,5 +1,5 @@
-# Create Movies index
-curl -XPUT 127.0.0.1:9200/movies?pretty
+# Create Movies index with empty mapping
+# curl -XPUT 127.0.0.1:9200/movies?pretty
 
 # Create Movies index with mapping?pretty
 curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies -d '
