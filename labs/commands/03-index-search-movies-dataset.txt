@@ -2,7 +2,7 @@
 curl -XPUT 127.0.0.1:9200/movies?pretty
 
 # Create Movies index with mapping?pretty
-curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies/_mapping -d '
+curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies -d '
 {
 	"mappings": {
     	"properties": {
