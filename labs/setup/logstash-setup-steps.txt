@@ -10,5 +10,5 @@ sudo apt-get install logstash
 sudo vi /etc/logstash/conf.d/logstash.conf
 
 #Run Logstash
-sudo /bin/logstash -f /etc/logstash/conf.d/logstash.conf
+sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf
 

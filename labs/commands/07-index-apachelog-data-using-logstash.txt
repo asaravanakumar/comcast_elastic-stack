@@ -1,0 +1,33 @@
+
+#Configure logstash pipeline
+
+sudo vi /etc/logstash/conf.d/logstash.conf
+input {
+        file {
+                path => "/home/ubuntu/access_log"
+                start_position => "beginning"
+        }
+ }
+
+filter {
+         grok {
+                match => { "message" => "%{COMBINEDAPACHELOG}" }
+        }
+        date {
+                match => [ "timestamp" , "dd/MMM/yyyy:HH:mm:ss Z" ]
+        }
+}
+
+output {
+        elasticsearch {
+                hosts => ["localhost:9200"]
+        }
+        stdout {
+                codec => rubydebug
+        }
+}
+
+
+#Run Logstash
+sudo /bin/logstash -f /etc/logstash/conf.d/logstash.conf
+
