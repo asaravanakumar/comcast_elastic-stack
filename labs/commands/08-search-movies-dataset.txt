@@ -1,0 +1,83 @@
+## URI Search
+
+# Search all documents
+curl -XGET 127.0.0.1:9200/_search?pretty
+
+# Search all documents on given index
+curl -XGET 127.0.0.1:9200/shakespeare/_search?pretty
+curl -XGET 127.0.0.1:9200/movies/_search?pretty
+
+
+# Search documents with filter condition
+
+curl -XGET "127.0.0.1:9200/movies/_search?q=star&pretty"
+curl -XGET "127.0.0.1:9200/movies/_search?q=title:star&pretty"
+curl -XGET "127.0.0.1:9200/movies/_search?q=+year>2010+title:star&pretty"
+
+
+## Query DSL
+
+# Match Query
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"match" : {
+			"title" : "trek"
+		}
+	}
+}' 
+
+
+# Boolean Query with a Filter
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"bool": {
+			"must" : {"term": {"title" : "trek"}},
+			"filter" : {"range": {"year": {"gte": 2010}}}
+		}
+	}
+}' 
+
+# Types of Filters - Term, Terms, Range, Exists, Missing, Bool
+# Types of Queries - Match_all, Match, Multi_match, Bool
+
+
+## Phrase Search
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"match_phrase" : {
+			"title" : "star wars"
+		}
+	}
+}' 
+
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"match_phrase" : {
+			"title" : {"query": "star beyond", "slop": 1}
+		}
+	}
+}' 
+
+ 
+## Pagination
+
+curl -XGET "127.0.0.1:9200/movies/_search?size=2&from=2&pretty"
+
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"from": 2,
+	"size": 2,
+	"query" : {
+		"match" : {
+			"genre" : "Sci-Fi"
+		}
+	}
+}' 
+
+## Sorting
+
+curl -XGET "127.0.0.1:9200/movies/_search?sort=year&pretty"

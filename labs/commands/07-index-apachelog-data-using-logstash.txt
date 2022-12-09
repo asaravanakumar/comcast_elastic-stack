@@ -1,7 +1,7 @@
 
 #Configure logstash pipeline
 
-sudo vi /etc/logstash/conf.d/logstash.conf
+sudo vi /etc/logstash/conf.d/apache-access-log.conf
 input {
         file {
                 path => "/home/ubuntu/access_log"
@@ -29,5 +29,5 @@ output {
 
 
 #Run Logstash
-sudo /bin/logstash -f /etc/logstash/conf.d/logstash.conf
+sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/apache-acess-log.conf
 
