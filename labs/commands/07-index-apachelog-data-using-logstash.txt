@@ -1,3 +1,5 @@
+#Download sample access log
+sudo wget https://raw.githubusercontent.com/asaravanakumar/comcast_elastic-stack/main/labs/dataset/access-log/access_log
 
 #Configure logstash pipeline
 
@@ -29,5 +31,5 @@ output {
 
 
 #Run Logstash
-sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/apache-acess-log.conf
+sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/apache-access-log.conf
 
