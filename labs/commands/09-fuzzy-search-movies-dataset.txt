@@ -1,0 +1,122 @@
+
+
+
+## Fuzzy Search
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"fuzzy" : {
+			"title" : {"value": "interstellar", "fuzziness": 2}
+		}
+	}
+}' 
+
+
+## Prefix Search
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"prefix" : {
+			"genre" : "Sci"
+		}
+	}
+}' 
+
+# Wildcard Search
+
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"wildcard" : {
+			"title" : "star"
+		}
+	}
+}' 
+
+
+# Query-Time Search
+
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"match_phrase_prefix" : {
+			"title" : {"query": "star", "slop": 10}
+		}
+	}
+}' 
+
+## N-Gram Search
+
+#Delete movies index
+curl -XDELETE 127.0.0.1:9200/movies?pretty 
+
+
+#Create index with custom autocomplete analyser
+curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies?pretty -d '
+{
+	"settings": {
+		"analysis": {
+			"filter": {
+				"autocomplete_filter": {
+					"type": "edge_ngram",
+					"min_gram": 1,
+					"max_gram": 20
+				}
+			},
+			"analyzer": {
+				"autocomplete": {
+					"type": "custom",
+					"tokenizer": "standard",
+					"filter": ["lowercase", "autocomplete_filter"]
+	
+				}
+			}
+		}
+
+	}
+}'
+
+#Analyze the index
+curl -H "Content-Type: application/json" -XGET 127.0.0.1:9200/movies/_analyze?pretty -d '
+{
+	"analyzer": "autocomplete",
+	"text": "sta"
+}'
+
+#Create mapping with custom analyser
+curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies/_mapping?pretty -d '
+{
+  "properties": {
+    "title": {
+              "type": "text",
+              "analyzer": "autocomplete"
+            }
+    }
+}'
+
+
+# Index data
+curl -XPUT -H "Content-Type: application/json" '127.0.0.1:9200/movies/_bulk?pretty' --data-binary @movies.json
+
+# Search the indexed data
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"match" : {
+			"title" : {
+				"query": "sta"
+		}
+	}
+}' 
+
+# Search the indexed data with analyser
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"match" : {
+			"title" : {
+				"query": "sta",
+				"analyzer": "standard"
+		}
+	}
+}' 

@@ -39,6 +39,17 @@ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pr
 	}
 }' 
 
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/_search?pretty' -d '
+{
+	"query" : {
+		"bool": {
+			"must" : {"match": {"genre" : "Sci-Fi"}},
+			"must_not" : {"match": {"title": "trek"}}
+			"filter" : {"range": {"year": {"gte": 2010}}}
+		}
+	}
+}' 
+
 # Types of Filters - Term, Terms, Range, Exists, Missing, Bool
 # Types of Queries - Match_all, Match, Multi_match, Bool
 
